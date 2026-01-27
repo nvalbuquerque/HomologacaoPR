@@ -8,7 +8,7 @@ from qgis.core import (
 
 # =========================
 # CAMINHOS - ALTERAR CONFORME O DIRETÓRIO DOS ARQUIVOS
-# LINHAS 12 E 13: Atualize os caminhos entre aspas conforme sua estrutura de pastas
+# LINHAS 13 E 14: Atualize os caminhos entre aspas conforme sua estrutura de pastas
 # =========================
 pasta = r"E:\Homologacao_Nathalia\Analises\Engefoto_Lote_10_Bloco_E\2_GeoTIFF"
 shp_path = r"E:\Homologacao_Nathalia\Analises\Engefoto_Lote_10_Bloco_E\Amostra_Engefoto_Lote10_BlocoE.shp"
@@ -16,7 +16,7 @@ shp_path = r"E:\Homologacao_Nathalia\Analises\Engefoto_Lote_10_Bloco_E\Amostra_E
 campo_codigo = "MI_3"
 
 # =========================
-# CARREGA O SHP - ALTERAR LINHA 20: Conteúdo entre aspas
+# CARREGA O SHP - ALTERAR LINHA 21: Conteúdo entre aspas
 # =========================
 shp = QgsVectorLayer(shp_path, "Amostra_Engefoto_Lote10_BlocoE", "ogr")
 if not shp.isValid():
@@ -83,4 +83,5 @@ for arquivo in os.listdir(pasta):
             print(f"Erro ao carregar: {arquivo}")
 
 print(f"{contador} arquivos carregados no projeto.")
+
 
