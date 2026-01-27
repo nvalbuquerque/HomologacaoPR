@@ -7,7 +7,8 @@ from qgis.core import (
 )
 
 # =========================
-# CAMINHOS - ALTERAR LINHAS 12 E 13: Conteúdo entre aspas
+# CAMINHOS - ALTERAR CONFORME O DIRETÓRIO DOS ARQUIVOS
+# LINHAS 12 E 13: Atualize os caminhos entre aspas conforme sua estrutura de pastas
 # =========================
 pasta = r"E:\Homologacao_Nathalia\Analises\Engefoto_Lote_10_Bloco_E\2_GeoTIFF"
 shp_path = r"E:\Homologacao_Nathalia\Analises\Engefoto_Lote_10_Bloco_E\Amostra_Engefoto_Lote10_BlocoE.shp"
@@ -50,9 +51,14 @@ for arquivo in os.listdir(pasta):
         continue
 
     base = os.path.splitext(nome)[0]
-
-    # procura tudo após _HC_
-    match = re.search(r"_hc_(.+)", base)
+    
+    # =========================
+    # PADRÃO DE BUSCA - MODIFICAR CONFORME O PRODUTO:
+    # Dependendo do produto, altere o padrão de busca:
+    # Exemplos: "_hc_" (imagem composta), "_mds_" (modelo digital de superficie), 
+    # "_mdt_" (modelo digital de terreno), "_intens_" (intensidade), etc.
+      
+    match = re.search(r"_hc_(.+)", base) # ALTERAR "_hc_" conforme o produto
     if not match:
         continue
 
@@ -77,3 +83,4 @@ for arquivo in os.listdir(pasta):
             print(f"Erro ao carregar: {arquivo}")
 
 print(f"{contador} arquivos carregados no projeto.")
+
