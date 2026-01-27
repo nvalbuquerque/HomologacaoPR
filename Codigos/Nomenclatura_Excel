@@ -1,0 +1,82 @@
+function main(workbook: ExcelScript.Workbook) {
+    // Mudar a constante PRODUTO_SELECIONADO para o nome presente na coluna "Produto1"
+    const PRODUTO_SELECIONADO = "8_IMG_HIPSOMETRICA_COMPOSTA";
+
+    const planilha1 = workbook.getWorksheet("Planilha1");
+    const planilha2 = workbook.getWorksheet("Planilha2");
+
+    const dadosP1 = planilha1.getUsedRange().getValues();
+    const dadosP2 = planilha2.getUsedRange().getValues();
+
+    const COL_NOME_ARQUIVO = dadosP1[0].indexOf("Nome do Arquivo");
+    const COL_PRODUTO = dadosP1[0].indexOf("Produto1");
+    const COL_MI3 = dadosP2[0].indexOf("MI_3");
+
+    if (COL_NOME_ARQUIVO === -1) {
+        console.log("Não encontrou 'Nome do Arquivo'");
+        return;
+    }
+    if (COL_PRODUTO === -1) {
+        console.log("Não encontrou 'Produto1'");
+        return;
+    }
+    if (COL_MI3 === -1) {
+        console.log("Não encontrou 'MI_3'");
+        return;
+    }
+
+    console.log("Iniciando busca...");
+    console.log(`Produto: ${PRODUTO_SELECIONADO}`);
+
+    const COL_RETORNO = dadosP2[0].length;
+    planilha2.getCell(0, COL_RETORNO).setValue(`Arquivo ${PRODUTO_SELECIONADO}`);
+
+    const arquivosDoProduto: { nome: string, linha: number }[] = [];
+
+    for (let j = 1; j < dadosP1.length; j++) {
+        const produto = dadosP1[j][COL_PRODUTO];
+        const nomeArquivo = dadosP1[j][COL_NOME_ARQUIVO];
+
+        if (produto === PRODUTO_SELECIONADO &&
+            typeof nomeArquivo === "string" &&
+            nomeArquivo.trim() !== "") {
+
+            arquivosDoProduto.push({
+                nome: nomeArquivo,
+                linha: j
+            });
+        }
+    }
+
+    for (let i = 1; i < dadosP2.length; i++) {
+        const mi3 = dadosP2[i][COL_MI3];
+        let nomeEncontrado = "";
+
+        if (typeof mi3 === "string" && mi3.trim() !== "") {
+            // Converte o código MI_3 para aceitar "_" ou "-" no nome do arquivo
+            const mi3Flex = mi3.replace(/-/g, "[-_]");
+
+            // Regex mais tolerante
+            const regex = new RegExp(`(^|_|-|\\.)${mi3Flex}(_|-|\\.|$)`);
+
+            // Busca apenas os arquivos da coluna "Produto1" selecionados
+            for (const arquivo of arquivosDoProduto) {
+                if (regex.test(arquivo.nome)) {
+                    nomeEncontrado = arquivo.nome;
+
+                    planilha1
+                        .getCell(arquivo.linha, COL_NOME_ARQUIVO)
+                        .getFormat()
+                        .getFill()
+                        .setColor("yellow");
+                    break;
+                }
+            }
+        }
+
+
+        planilha2.getCell(i, COL_RETORNO).setValue(nomeEncontrado);
+    }
+
+    console.log(`Busca completa!`);
+}
