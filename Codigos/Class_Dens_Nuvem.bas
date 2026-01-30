@@ -1,4 +1,7 @@
-Attribute VB_Name = "Módulo1"
+' Alt + F11: Abre Microsoft VBA > Inserir > MÃ³dulo || Arquivo > Importar Arquivo... (.bas)
+' Criar botÃ£o: aba Desenvolvedor > Inserir > Botao
+
+Attribute VB_Name = "MÃ³dulo1"
 Sub ClassificarDensidadeNuvem()
 
     Dim wbBase As Workbook
@@ -20,7 +23,7 @@ Sub ClassificarDensidadeNuvem()
 
     Set dict = CreateObject("Scripting.Dictionary")
 
-    ' === LÊ A BASE E GUARDA EM MEMÓRIA ===
+    ' === LÃŠ A BASE E GUARDA EM MEMÃ“RIA ===
     ultimaLinhaBase = wsBase.Cells(wsBase.Rows.Count, "C").End(xlUp).Row
 
     For i = 2 To ultimaLinhaBase
@@ -45,13 +48,14 @@ Sub ClassificarDensidadeNuvem()
                 wsResultado.Cells(i, "G").Value = "AP"
             End If
         Else
-            wsResultado.Cells(i, "G").Value = "Código inexistente"
+            wsResultado.Cells(i, "G").Value = "CÃ³digo inexistente"
         End If
     Next i
 
     wbBase.Close SaveChanges:=False
 
-    MsgBox "Classificação concluída!", vbInformation
+    MsgBox "ClassificaÃ§Ã£o concluÃ­da!", vbInformation
 
 End Sub
+
 
